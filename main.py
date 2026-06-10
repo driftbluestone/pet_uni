@@ -111,5 +111,5 @@ class Petter(discord.ui.View):
             self.embed.description = f"{message}\n{stats}"
 
     def update_stats(self) -> None:
-        self.stats = f"Times pet: {CONFIG["times_pet"]}\nLast pet: <t:{CONFIG["last_pet"]}:R> by <@{self.interaction.user.id}>"
+        self.stats = f"Times pet: {CONFIG["times_pet"]}\nLast pet: <t:{CONFIG["last_pet"]}:R> by <@{CONFIG["last_interaction_user"]}>"
         
