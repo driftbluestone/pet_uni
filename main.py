@@ -71,11 +71,11 @@ class Petter(discord.ui.View):
     
     async def pet(self, interaction: discord.Interaction):
         await interaction.response.defer(thinking=False, ephemeral=True)
-
+        
         # if user double clicks
         if CONFIG["last_interaction_user"] == interaction.user.id:
             self.set_embed_description(random.choice(too_fast))
-            return await self.interaction.edit_original_response(embed=self.embed)
+            return await interaction.message.edit(embed=self.embed)
         
         user = users.get(interaction.user.id)
 
@@ -87,7 +87,7 @@ class Petter(discord.ui.View):
         CONFIG["last_interaction_user"] = interaction.user.id
         if user["pet_uni:friendliness"] < random.randint(1, 100):
             self.set_embed_description(random.choice(friendliness_fail))
-            await self.interaction.edit_original_response(view=self, embed=self.embed)
+            await interaction.message.edit(view=self, embed=self.embed)
         else:
             # update stats
             CONFIG["last_pet"] = int(time.time())
@@ -99,7 +99,7 @@ class Petter(discord.ui.View):
             self.embed.set_image(url=random.choice(CONFIG["images"]))
             self.update_stats()
             self.set_embed_description("Uni has been pet!")
-            await self.interaction.edit_original_response(view=self, embed=self.embed)
+            await interaction.message.edit(view=self, embed=self.embed)
         
         config.overwrite(CONFIG)
         users.overwrite(user)
