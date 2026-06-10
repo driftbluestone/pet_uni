@@ -30,7 +30,7 @@ class PetUni(commands.Cog):
             return
         channel = await self.bot.fetch_channel(CONFIG["last_interaction_channel"])
         message = await channel.fetch_message(CONFIG["last_interaction"])
-        await message.edit(view=None)
+        await message.edit(view=Petter())
 
     uni = app_commands.Group(name="uni", description=".")
 
@@ -41,7 +41,7 @@ class PetUni(commands.Cog):
             message = await channel.fetch_message(CONFIG["last_interaction"])
             await message.delete()
         
-        view = Petter(interaction)
+        view = Petter()
         message = await interaction.response.send_message(view = view, embed = view.embed)
         CONFIG["last_interaction_channel"] = interaction.channel.id
         CONFIG["last_interaction"] = message.message_id
@@ -56,9 +56,8 @@ class PetUni(commands.Cog):
         await interaction.response.send_message(f"New image added!")
         
 class Petter(discord.ui.View):
-    def __init__(self, interaction: discord.Interaction):
+    def __init__(self):
         super().__init__(timeout=None)
-        self.interaction = interaction
         self.embed = discord.Embed(title="Pet Uni!")
         self.embed.set_image(url=random.choice(CONFIG["images"]))
         self.message = ""
